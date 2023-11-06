@@ -1,0 +1,39 @@
+version: "3"
+
+services:
+  db:
+    image: mongo
+    environment:
+      - MONGO_INITDB_DATABASE=chat
+
+    ports:
+      - 27017:27017
+    volumes:
+      - ./chat:/data/db
+    networks:
+      - chat-app-backend
+
+  chat-app-backend:
+    build: ./chat-app-backend
+    ports:
+      - 5000:5000
+    depends_on:
+      - db
+    networks:
+      - chat-app-backend
+      - chat-app-frontend
+
+  chat-app-frontend:
+    build: ./chat-app-frontend
+    environment:
+      - name=value
+    ports:
+      - 80:80
+    depends_on:
+      - chat-app-backend
+    networks:
+      - chat-app-frontend
+
+networks:
+  chat-app-backend:
+  chat-app-frontend:

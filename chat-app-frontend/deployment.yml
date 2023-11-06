@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: snappy-frontend
+spec:
+  selector:
+    matchLabels:
+      app: snappy-frontend
+  template:
+    metadata:
+      labels:
+        app: snappy-frontend
+    spec:
+      containers:
+      - name: snappy-frontend
+        image: dabhidhruvraj/test:v2
+        resources:
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+        ports:
+        - containerPort: 80
+        env:
+          - name: BACKEND_HOST
+            value: snappy-backend
+          - name: BACKEND_PORT
+            value: "5000"
